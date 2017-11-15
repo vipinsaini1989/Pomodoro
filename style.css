@@ -1,0 +1,39 @@
+body {
+	background-color:  #22313f;
+	color:#F0AD4E;
+}
+header {
+	font-size: 32px;
+	text-align: center;
+	font-family: 'Pacifico', cursive;
+}
+.break {
+	font-size: 20px;
+	margin-left: -30%;
+	text-align: center;
+
+}
+.session {
+	font-size: 20px;
+	margin-left: 40%;
+	margin-top: -10%;
+	text-align: center;
+}
+.timer {
+	text-align: center;
+	font-size: 25px;
+	background-color: #F0AD4E;
+	color:  #22313f;
+	border-radius: 50%;
+	width: 25%;
+	height: 220px;
+	padding-top: 5%;
+	margin-left: 40%;
+}
+button {
+	font-size: 16px;
+	padding: 10px;
+}
+.timerFont {
+	font-size: 50px;
+}
