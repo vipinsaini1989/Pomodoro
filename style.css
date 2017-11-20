@@ -37,3 +37,8 @@ button {
 .timerFont {
 	font-size: 50px;
 }
+/*forthe reset button (initially hide)*/
+#stopBtn {
+	display: none;
+	margin-left: 40%;
+}

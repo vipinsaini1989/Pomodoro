@@ -1,16 +1,11 @@
+// getting the system date to add in our time required
 var Tdate = new Date().getTime();
-var active_mode = 'sessionMin'
+// place value of session timer
 var sessionTim = document.querySelector('#exceed').innerText;
+// place value of break timer.
 var breakTim = document.querySelector('#breakExceed').innerText;
 
-// var sessionMin = document.querySelector('#exceed').innerText;
-// var breakMin = document.querySelector('#breakExceed').innerText;
-var mili = 60000;
-var distance;
-// var countDownDate = Tdate + sessionMin*mili;
-
-
-
+// to increase the session time
 function sessionInc(){
 	if (sessionTim<30){
 		sessionTim++;
@@ -23,6 +18,7 @@ function sessionInc(){
 	}
 
 }
+// to decrease the session time
 function sessionDec(){
 	if (sessionTim >1){
 		sessionTim--;
@@ -32,110 +28,72 @@ function sessionDec(){
 		document.querySelector('#exceed').innerText = "You cannot decrease";
 	}
 }
+// to increase the break time duration
 function breakInc(){
 	if (breakTim<10 ){
 		breakTim++;
 		document.querySelector('#breakExceed').innerText = breakTim;
-    	// document.querySelector('#udateTime').innerText = breakMin;
 	}else {
 		document.querySelector('#breakExceed').innerText = "You cannot increase";
 	}
 
 }
+// button to decrease the break time duration
 function breakDec(){
 	if ( breakTim >1){
 		breakTim--;
 		document.querySelector('#breakExceed').innerText = breakTim;
-    	// document.querySelector('#udateTime').innerText = breakMin;
 	}else {
 		document.querySelector('#breakExceed').innerText = "You cannot decrease";
 	}
 }
 
-function sessionTimer(){
-	var duration_value = {
-	sessionMin : sessionTim,
-	breakMin: breakTim
-}
-	var countDownDate = Tdate + duration_value[active_mode]*mili;
-	
+var switch_mode = function(length, type){
+// Set the date we're counting down to
+var countDownDate = new Date().getTime() + length*60000;
+// while timer is ON button is disabled
+document.getElementById('breakPlus').disabled = true;
+document.getElementById('breakMinus').disabled = true;
+document.getElementById('sessionPlus').disabled=true;
+document.getElementById('sessionMinus').disabled = true;
+
 // Update the count down every 1 second
 var x = setInterval(function() {
-
+	document.querySelector('#stopBtn').style.display = "block";
     // Get todays date and time
     var now = new Date().getTime();
     
     // Find the distance between now an the count down date
-    distance = countDownDate - now;
+    var distance = countDownDate - now;
     
-    // Time calculations for minutes and seconds
- 
+    // Time calculations for days, hours, minutes and seconds
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
     
-    // display the timer
-    document.querySelector('#udateTime').innerText = minutes + "m " + seconds + "s ";
-
-    if (distance < 1){
-		clearInterval(x);
-	}
-	// 	breakTimer();
-	// 	active_mode = 'breakMin'
-	// 	document.querySelector('#udateTime').innerText = " ";
-	// 	document.querySelector('#callBreak').innerText = "Break !";
-	// }else {
-	// 	active_mode= 'sessionMin'
-	// }
-
+    // Output the result in an element 
+    document.getElementById("udateTime").innerHTML = `${minutes}m${seconds}s`;
+    
+    // If the count down is over, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        if (type == "session"){
+        	switch_mode(breakTim,"Break");
+        	document.getElementById("callBreak").innerHTML = "BREAK!!";
+        } else{
+        	switch_mode(sessionTim,"session");
+        	document.getElementById("callBreak").innerHTML = "Session";
+        }
+    }
 }, 1000);
+};
 
-}
-
-switch_mode = function(){
-	
-	if (distance < 0){
-	active_mode = 'breakMin';
-	clearInterval(x);
-	document.querySelector('#callBreak').innerText = "Break !";
-	document.querySelector('#udateTime').innerText = " ";
-}
-
-sessionTimer();
-}
-
-
-// Timer for break !!!
-// function breakTimer(){
-// 	var countDownDate = Tdate + breakMin*mili;
-// 	document.querySelector('#callBreak').innerText = "Break !";
-// // Update the count down every 1 second
-// var y = setInterval(function() {
-
-//     // Get todays date and time
-//     var now = new Date().getTime();
-    
-//     // Find the distance between now an the count down date
-//     var distance = countDownDate - now;
-    
-//     // Time calculations for minutes and seconds
- 
-//     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-//     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-//     // display the timer
-//     document.querySelector('#udateTime').innerText = minutes + "m " + seconds + "s ";
-
-//     if (distance < 0){
-// 		clearInterval(y);
-// 		// sessionTimer();
-// 		document.querySelector('#udateTime').innerText = " ";
-// 	}
-	
-// }, 1000);
-	
-// }
-
-document.getElementById('clickStart').addEventListener('click', switch_mode);
+// Reset button 
+var resetBtn = document.querySelector('#stopBtn');
+resetBtn.addEventListener("click",()=>
+	location.reload()
+);
+// click events for all buttons
+document.getElementById('clickStart').addEventListener('click', ()=> switch_mode(sessionTim, "session"));
 document.getElementById('breakPlus').addEventListener('click', breakInc);
 document.getElementById('breakMinus').addEventListener('click', breakDec);
 document.getElementById('sessionPlus').addEventListener('click', sessionInc);
