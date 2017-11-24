@@ -74,7 +74,7 @@ var x = setInterval(function() {
     document.getElementById("udateTime").innerHTML = `${minutes}m${seconds}s`;
     
     // If the count down is over, write some text 
-    if (distance < 0) {
+    if (distance < 999) {
         clearInterval(x);
         if (type == "session"){
         	switch_mode(breakTim,"Break");
